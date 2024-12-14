@@ -3,12 +3,12 @@ package dev.sachin.ProductServiceNovember24.services;
 import dev.sachin.ProductServiceNovember24.dtos.FakeStoreProductDto;
 import dev.sachin.ProductServiceNovember24.exceptions.ProductNotFoundException;
 import dev.sachin.ProductServiceNovember24.models.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
@@ -33,6 +33,11 @@ public class FakeStoreProductService implements ProductService{
             products.add(p);
         }
         return products;
+    }
+
+    @Override
+    public List<Product> getAllProductsPage(int pageNumber, int pageSize) {
+        return List.of();
     }
 
     @Override

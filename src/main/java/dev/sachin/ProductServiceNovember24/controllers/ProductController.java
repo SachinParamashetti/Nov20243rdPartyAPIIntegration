@@ -5,6 +5,8 @@ import dev.sachin.ProductServiceNovember24.dtos.ErrorDTO;
 import dev.sachin.ProductServiceNovember24.exceptions.ProductNotFoundException;
 import dev.sachin.ProductServiceNovember24.models.Product;
 import dev.sachin.ProductServiceNovember24.services.ProductService;
+import dev.sachin.ProductServiceNovember24.services.SelfProductService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,11 @@ public class ProductController {
     public Product getSingleProduct(@PathVariable("id") long id) throws ProductNotFoundException {
         return productService.
                 getSingleProduct(id);
+    }
+
+    @GetMapping("/products/page/")
+    public List<Product> getProductsByPage(@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize){
+        return productService.getAllProductsPage(pageNumber, pageSize);
     }
 
     @GetMapping("/products")

@@ -6,9 +6,13 @@ import dev.sachin.ProductServiceNovember24.models.Product;
 import dev.sachin.ProductServiceNovember24.repositories.CategoryRepository;
 import dev.sachin.ProductServiceNovember24.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("selfProductService")
 public class SelfProductService implements ProductService{
@@ -24,12 +28,21 @@ public class SelfProductService implements ProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return productRepository.findAll();
+    }
+
+    public List<Product> getAllProductsPage(int pageNumber, int pageSize) {
+        Page<Product> productPage =  productRepository.findAll(PageRequest.of(pageNumber, pageSize,Sort.by(Sort.Direction.DESC, "price")));
+        return productPage.getContent();
     }
 
     @Override
     public Product getSingleProduct(Long id) throws ProductNotFoundException {
-        return null;
+         Optional<Product> product=productRepository.findById(id);
+         if(product.isEmpty()){
+             throw new ProductNotFoundException("Product not found");
+         }
+        return product.get();
     }
 
     @Override
